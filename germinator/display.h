@@ -1,5 +1,28 @@
 #include "common.h"
 
+
+#define MASK_A   0x20
+#define MASK_B   0x10
+#define MASK_C   0x40
+#define MASK_E   0x01
+#define MASK_F   0x02
+#define MASK_G   0x80
+#define MASK_DG0 0x04
+#define MASK_DG1 0x08
+
+const char SEGMENTS[10] = {
+    0xFF ^ (MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1), 
+    0xFF ^ (MASK_C | MASK_B | MASK_DG0 | MASK_DG1), 
+    0xFF ^ (MASK_G | MASK_E | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),  
+    0xFF ^ (MASK_G | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),                             
+    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_B | MASK_DG0 | MASK_DG1),  
+    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_A | MASK_DG0 | MASK_DG1),  
+    0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_A | MASK_DG0 | MASK_DG1),  
+    0xFF ^ (MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),  
+    0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),  
+    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1)
+};
+
 void writeRegister(int data) {
 
     for (int i = 0; i < 8; i++) {
@@ -14,43 +37,15 @@ void writeRegister(int data) {
 
 void writeDisplay(int digit, int index) {
 
-    int data = index == 0 ? 0x80 : 0x40;
+    char data = index == 0 ? MASK_DG0 : MASK_DG1;
 
-    switch (digit) {
-        case 0:
-            break;
-        case 1:
-            data |= 0x39;
-            break;
-        case 2:
-            data |= 0x24;
-            break;
-        case 3:
-            data |= 0x30;
-            break;
-        case 4:
-            data |= 0x19;
-            break;
-        case 5:
-            data |= 0x12;
-            break;
-        case 6:
-            data |= 0x02;
-            break;
-        case 7:
-            data |= 0x38;
-            break;
-        case 8:
-            break;
-        case 9:
-            data |= 0x10;
-    }
+    data |= SEGMENTS[digit];
 
     writeRegister(data);
 
-    if (digit < 2 || digit == 7) {
-        digitalWrite(SEG_G, HIGH);
+    if (digit == 1 || digit == 4 || digit == 7) {
+        digitalWrite(SEG_D, HIGH);
     } else {
-        digitalWrite(SEG_G, LOW);
+        digitalWrite(SEG_D, LOW);
     }
 }

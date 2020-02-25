@@ -3,7 +3,7 @@
 #include "common.h"
 #include "display.h"
 
-OneWire oneWire(ONE_WIRE_BUS);  
+OneWire oneWire(SENSOR);  
 DallasTemperature sensors(&oneWire);
 
 volatile int temperature = 0;
@@ -23,8 +23,8 @@ void setup() {
     pinMode(SER, OUTPUT);
     pinMode(RCLK, OUTPUT);
     pinMode(SRCLK, OUTPUT);
-    pinMode(SEG_G, OUTPUT);
-    digitalWrite(SEG_G, LOW);
+    pinMode(SEG_D, OUTPUT);
+    digitalWrite(SEG_D, LOW);
 
     noInterrupts(); 
     OCR0A = 0xAF;
@@ -35,6 +35,8 @@ void setup() {
 }
 
 void loop() {
+
+    Serial.println("wut");
 
     sensors.requestTemperatures(); 
     temperature = int(sensors.getTempCByIndex(0));
