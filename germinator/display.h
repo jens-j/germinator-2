@@ -11,15 +11,15 @@
 #define MASK_DG1 0x08
 
 const char SEGMENTS[10] = {
-    0xFF ^ (MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1), 
-    0xFF ^ (MASK_C | MASK_B | MASK_DG0 | MASK_DG1), 
-    0xFF ^ (MASK_G | MASK_E | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),  
-    0xFF ^ (MASK_G | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),                             
-    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_B | MASK_DG0 | MASK_DG1),  
-    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_A | MASK_DG0 | MASK_DG1),  
-    0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_A | MASK_DG0 | MASK_DG1),  
-    0xFF ^ (MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),  
-    0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),  
+    0xFF ^ (MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_C | MASK_B | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_G | MASK_E | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_G | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_B | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_A | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_A | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
     0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1)
 };
 
@@ -48,4 +48,9 @@ void writeDisplay(int digit, int index) {
     } else {
         digitalWrite(SEG_D, LOW);
     }
+}
+
+void blankDisplay() {
+
+    writeRegister(0x00);
 }
