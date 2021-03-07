@@ -1,4 +1,4 @@
-#define SENSOR   19 // (A5)
+#define SENSOR   A4 // (A4)
 #define SER      2
 #define RCLK     3
 #define SRCLK    4

@@ -10,7 +10,7 @@
 #define MASK_DG0 0x04
 #define MASK_DG1 0x08
 
-const char SEGMENTS[10] = {
+const char SEGMENTS[16] = {
     0xFF ^ (MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
     0xFF ^ (MASK_C | MASK_B | MASK_DG0 | MASK_DG1),
     0xFF ^ (MASK_G | MASK_E | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
@@ -20,7 +20,13 @@ const char SEGMENTS[10] = {
     0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_A | MASK_DG0 | MASK_DG1),
     0xFF ^ (MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
     0xFF ^ (MASK_G | MASK_F | MASK_E | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
-    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1)
+    0xFF ^ (MASK_G | MASK_F | MASK_C | MASK_B | MASK_A | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_A | MASK_B | MASK_C | MASK_E | MASK_F | MASK_G | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_C | MASK_E | MASK_F | MASK_G | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_A | MASK_E | MASK_F | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_B | MASK_C | MASK_E | MASK_G | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_A | MASK_E | MASK_F | MASK_G | MASK_DG0 | MASK_DG1),
+    0xFF ^ (MASK_A | MASK_E | MASK_F + MASK_G | MASK_DG0 | MASK_DG1)
 };
 
 void writeRegister(int data) {
@@ -37,13 +43,13 @@ void writeRegister(int data) {
 
 void writeDisplay(int digit, int index) {
 
-    char data = index == 0 ? MASK_DG0 : MASK_DG1;
+    char data = (index == 0) ? MASK_DG0 : MASK_DG1;
 
     data |= SEGMENTS[digit];
 
     writeRegister(data);
 
-    if (digit == 1 || digit == 4 || digit == 7) {
+    if (digit == 1 || digit == 4 || digit == 7 || digit == 0xA || digit == 0xF) {
         digitalWrite(SEG_D, HIGH);
     } else {
         digitalWrite(SEG_D, LOW);
